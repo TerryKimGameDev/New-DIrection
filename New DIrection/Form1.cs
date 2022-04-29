@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+//GitHub now
+//https://github.com/TerryKimGameDev/New-DIrection.git
 namespace New_DIrection
 {
     public partial class Form1 : Form
