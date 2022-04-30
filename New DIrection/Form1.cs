@@ -71,7 +71,7 @@ namespace New_DIrection
                 if (value != _Seed)
                 {
                     _Seed = value;
-                   SeedStatus.Text = "Seed = " + Seed.ToString();
+                    SeedStatus.Text = "Seed = " + Seed.ToString();
                 }
             }
         }
@@ -129,7 +129,7 @@ namespace New_DIrection
 
         // The event called by the timer every Interval milliseconds.
         private void Timer_Tick(object sender, EventArgs e)
-        {            
+        {
             NextGeneration();
             if (generations == stopat)
             {
@@ -141,7 +141,7 @@ namespace New_DIrection
                 Pause.Enabled = false;
                 pauseToolStripMenuItem.Enabled = false;
             }
-            
+
         }
         //Paint Eventers_________________________________________________________________________________________________________________________
         #region Painters
@@ -160,14 +160,14 @@ namespace New_DIrection
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
             Living = 0;
+            // A rectangle to represent each cell in pixels
+            RectangleF cellRect = Rectangle.Empty;
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    // A rectangle to represent each cell in pixels
-                    RectangleF cellRect = Rectangle.Empty;
                     cellRect.X = x * cellWidth;
                     cellRect.Y = y * cellHeight;
                     cellRect.Width = cellWidth;
@@ -183,11 +183,10 @@ namespace New_DIrection
                     {
                         NeighborDisplay(e, cellRect, x, y);
                     }
-
                     // Outline the cell with a pen and clear gridline
                     if (gridToolStripMenuItem.Checked == true)
                     {
-                        e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height); 
+                        e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                         Grid10by10(e);
                     }
                 }
@@ -275,7 +274,7 @@ namespace New_DIrection
             Font font = new Font("Arial", 12f, FontStyle.Bold);
 
             //should a string display as toroidal or finite
-            string s = (toroidalToolStripMenuItem.Checked == false) ? "Toroidal" : "Finite";
+            string s = (toroidalToolStripMenuItem.Checked == true) ? "Toroidal" : "Finite";
             //the string to display
             string Hudtext = $"Generations: {Generations}\nCell Count: {Living}\nBoundary Type:{s}\nUniverse Size:(Width={universe.GetLength(0)}, Height={universe.GetLength(1)})";
             //a rectangle the size of the panel to adjust shape automatically
@@ -901,9 +900,9 @@ namespace New_DIrection
             graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
             Interval = Properties.Settings.Default.Interval;
             Seed = Properties.Settings.Default.Seed;
-            universe = new Cell[Properties.Settings.Default.UniW,Properties.Settings.Default.UniH];
+            universe = new Cell[Properties.Settings.Default.UniW, Properties.Settings.Default.UniH];
             GridReset(sender, e);
-            
+
         }
         //on FormClose user settings are saved
         private void FormClose(object sender, FormClosedEventArgs e)
@@ -928,7 +927,7 @@ namespace New_DIrection
             Grid10Color = Properties.Settings.Default.Grid10Color;
             graphicsPanel1.BackColor = Properties.Settings.Default.BackColor;
             Interval = Properties.Settings.Default.Interval;
-            Seed = Properties.Settings.Default.Seed; 
+            Seed = Properties.Settings.Default.Seed;
             universe = new Cell[Properties.Settings.Default.UniW, Properties.Settings.Default.UniH];
             GridReset(sender, e);
         }
@@ -948,5 +947,6 @@ namespace New_DIrection
         #endregion User Settings
 
         #endregion Events
+
     }
 }
