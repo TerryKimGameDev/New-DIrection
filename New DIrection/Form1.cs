@@ -156,6 +156,7 @@ namespace New_DIrection
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(gridColor, 1);
+            Pen grid10Pen = new Pen(Grid10Color, 2);
 
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
@@ -184,10 +185,26 @@ namespace New_DIrection
                         NeighborDisplay(e, cellRect, x, y);
                     }
                     // Outline the cell with a pen and clear gridline
-                    if (gridToolStripMenuItem.Checked == true)
+                }
+            }
+
+            //Gridlines
+            if (gridToolStripMenuItem.Checked == true)
+            {
+                int numOfCells = universe.GetLength(0) * universe.GetLength(1);
+                for (int i = 0; i < numOfCells; i++)
+                {
+                    // Vertical
+                    e.Graphics.DrawLine(gridPen, i * cellWidth, 0, i * cellWidth, numOfCells * cellWidth);
+                    // Horizontal
+                    e.Graphics.DrawLine(gridPen, 0, i * cellHeight, numOfCells * cellHeight, i * cellHeight);
+                    //Grid10by10(e);
+                    if (i % 10 == 0)
                     {
-                        e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
-                        Grid10by10(e);
+                        // Vertical
+                        e.Graphics.DrawLine(grid10Pen, i * cellWidth, 0, i * cellWidth, numOfCells * cellWidth);
+                        // Horizontal
+                        e.Graphics.DrawLine(grid10Pen, 0, i * cellHeight, numOfCells * cellHeight, i * cellHeight);
                     }
                 }
             }
@@ -287,31 +304,6 @@ namespace New_DIrection
             //draw the hud
             e.Graphics.DrawString(Hudtext, font, Brushes.Salmon, rect, stringFormat);
         }
-        //the 10 by 10 grid display
-        private void Grid10by10(PaintEventArgs e)
-        {
-            // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
-            float cellWidth = (float)graphicsPanel1.ClientSize.Width / (float)universe.GetLength(0) - 0.01f;
-            // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
-            float cellHeight = (float)graphicsPanel1.ClientSize.Height / (float)universe.GetLength(1) - 0.01f;
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    // A rectangle to represent each cell in pixels
-                    RectangleF cellRect = Rectangle.Empty;
-                    cellRect.X = x * cellWidth;
-                    cellRect.Y = y * cellHeight;
-
-                    if (x % 10 == 0 && y % 10 == 0)
-                    {
-                        //draw the 10 by 10 grid based on modulo of 10
-                        e.Graphics.DrawRectangle(new Pen(Grid10Color, 2), cellRect.X, cellRect.Y, cellWidth * 10, cellHeight * 10);
-                    }
-                }
-            }
-        }
-
         #endregion Painters
         //Personal Functions ____________________________________________________________________________________________________________________
         #region Personal Functions
